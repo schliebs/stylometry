@@ -44,6 +44,7 @@ summary_table <-
                                        rate_stopwords = mean(rate_stopwords,na.rm = T)
                                        )
 
+#
 ## classification mode
 # default with factor response:
 model <- svm(sender ~ 
