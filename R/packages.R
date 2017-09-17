@@ -13,5 +13,7 @@ install.load::install_load("tidyverse",
                            "hrbrthemes",
                            "Rcpp",
                            "RcppArmadillo",
-                           "BH") #
+                           "BH",
+                           "DT",
+                           "formattable") #
 
