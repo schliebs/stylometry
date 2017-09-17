@@ -27,12 +27,21 @@ data$MetadataFrom %>% table() %>% sort() %>% .[.>50]
 
 # E-Mail Content: 
 
-#data$RawText
 
-docs <- (Corpus(VectorSource(data$ExtractedBodyText)))
+docs_raw <- (Corpus(VectorSource(data$ExtractedBodyText)))
+docs <- docs_raw
+
 summary(docs)   
 inspect(docs[1])
 writeLines(as.character(docs[2]))
+
+
+# Remove Empty documents: 
+
+empty <- sapply(docs, function(x) {x[[1]] == "" })
+empty
+
+
 
 # Removing Punctuation
 docs <- tm_map(docs,removePunctuation)   
@@ -50,14 +59,36 @@ docs <- tm_map(docs, removeNumbers)
 
 # converting to lowercase
 docs <- tm_map(docs, tolower)   
-docs <- tm_map(docs, PlainTextDocument)
-DocsCopy <- docs
+
+# this does something i don't want
+#docs2 <- tm_map(docs, PlainTextDocument)
 
 # Remove stopwords (do I really wanna do this?)
 length(stopwords("english"))   
 stopwords("english")   
+# docs <- tm_map(docs, removeWords, stopwords("english"))   
+# docs <- tm_map(docs, PlainTextDocument)
 
-docs <- tm_map(docs, removeWords, stopwords("english"))   
+# Remove other particular words
+docs <- tm_map(docs, removeWords, c("studienstiftung", "merkel"))   
+
+# Combine words/concepts that shall stay together (does not work until now)
+
+docs <- docs_raw
+
+for (j in 1:5)
+{
+  docs[[j]] <- gsub("fake news", "fake_news", docs[[j]])
+  docs[[j]] <- gsub("Hillary", "Trumpitrump", docs[[j]])
+  
+  docs[[j]] <- gsub("inner city", "inner-city", docs[[j]])
+  docs[[j]] <- gsub("politically correct", "politically_correct", docs[[j]])
+}
 docs <- tm_map(docs, PlainTextDocument)
-# writeLines(as.character(docs[1])) # Check to see if it worked.
 
+
+## Optional: Stemming the end
+docs_st <- tm_map(docs, stemDocument)   
+docs_st <- tm_map(docs_st, PlainTextDocument)
+writeLines(as.character(docs_st[1])) # Check to see if it worked.
+# docs <- docs_st
