@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "\n#include <RcppArmadillo.h>\n//[[Rcpp::depends(RcppArmadillo)]]\nusing namespace Rcpp;  \n\n// [[Rcpp::export]]  \narma::mat Generate_Document_Word_Matrix(int number_of_docs,\n                                        int number_of_unique_words,\n                                        std::vector<std::string> unique_words,\n                                        List Document_Words,\n                                        arma::vec Document_Lengths\n){\n  arma::mat document_word_matrix = arma::zeros(number_of_docs,number_of_unique_words);  \n  \n  for(int n = 0; n < number_of_docs; ++n){\n    Rcpp::Rcout << \"Current Document: \" << n << std::endl;\n    std::vector<std::string> current = Document_Words[n];\n    int length = Document_Lengths[n];\n    for(int i = 0; i < length; ++i){\n      int already = 0;\n      int counter = 0;\n      while(already == 0){\n        if(counter == number_of_unique_words ){\n          already = 1;\n        }else{\n          if(unique_words[counter] == current[i]){\n            document_word_matrix(n,counter) += 1;\n            already = 1;\n          } \n          counter +=1;\n        }\n      }\n    }\n  }    \n  return document_word_matrix;     \n}\n\n// redits: stolen from http://www.mjdenny.com/Text_Processing_In_R.html\n",
+    "created" : 1505677274735.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "928446395",
+    "id" : "71C6FCCE",
+    "lastKnownWriteTime" : 1505677488,
+    "last_content_update" : 1505677488059,
+    "path" : "C:/Users/Schliebs/OneDrive/17_stylometry/stylometry/Generate_Document_Word_Matrix.cpp",
+    "project_path" : "Generate_Document_Word_Matrix.cpp",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}
