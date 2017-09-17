@@ -1,4 +1,21 @@
-
+mail_summary <- function(input_data) {
+  summary_table <- 
+    input_data %>% group_by(sender) %>% summarize(total_mails = n(),
+                                                  number_words = mean(number_words,na.rm = T) %>% round(1),
+                                                  total_char = mean(total_char,na.rm = T) %>% round(1),
+                                                  unique_words = mean(unique_words,na.rm = T)%>% round(1),
+                                                  total_char = mean(total_char,na.rm = T)%>% round(1),
+                                                  sentence_length = mean(sentence_length,na.rm = T)%>% round(1),
+                                                  total_char = mean(total_char,na.rm = T)%>% round(1),
+                                                  unique_words = mean(unique_words,na.rm = T)%>% round(1),
+                                                  sentence_length = mean(sentence_length,na.rm = T)%>% round(1),
+                                                  average_word_length = mean(average_word_length,na.rm = T)%>% round(1),
+                                                  vocab_richness = mean(vocab_richness,na.rm = T)%>% round(1),
+                                                  number_stopwords = mean(number_stopwords,na.rm = T)%>% round(1),
+                                                  rate_stopwords = mean(rate_stopwords,na.rm = T) %>% round(1)
+    ) 
+  return(summary_table)
+}
 
 
 Clean_String <- function(string){
