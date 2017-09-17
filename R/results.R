@@ -1,5 +1,7 @@
 formattable(summary_table, 
             list(
+  area(col = c(total_mails)
+  ) ~ normalize_bar("lightgreen", 0.2),
   area(col = c(number_words)
   ) ~ normalize_bar("pink", 0.2),
   area(col = c(total_char)
@@ -18,5 +20,5 @@ formattable(summary_table,
   ) ~ normalize_bar("pink", 0.2)
   )
 ) %>% as.htmlwidget() %>% 
-  saveWidget(file = "results/output.html")
+  saveWidget(file = "descriptive_covariates.html")
 
