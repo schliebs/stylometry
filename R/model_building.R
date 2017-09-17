@@ -2,6 +2,11 @@
 ##One-dimensional case: number of words
 #######################################
 
+# Read data
+
+data <- readRDS(file = "../data/processed_data.rds")
+
+
 # Covariates that work 
 
 df <- 
@@ -23,7 +28,7 @@ df <- df[complete.cases(df),]
 df$sender %>% table() %>% sort() %>% .[.>20] 
 
 # Pick 3
-three <- df$sender %>% table() %>% sort() %>% .[.>20 ] %>% names() %>% as.vector() %>% .[c(1:3)]
+three <- df$sender %>% table() %>% sort() %>% .[.>50 ] %>% names() %>% as.vector() #%>% .[c(1:3)]
 three 
 
 df2 <- df %>% filter(sender %in% three)

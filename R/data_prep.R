@@ -32,7 +32,7 @@ data$sender %>% table() %>% sort() %>% .[.>50]
 
 # Advanced Data Management: tm-package/Corpus operations
 
-data <- data[1:1000,]
+#data <- data[1:1000,]
 
 # E-Mail Content: 
 docs_raw <- (VCorpus(VectorSource(data$ExtractedBodyText)))
@@ -210,6 +210,24 @@ data$rate_stopwords <- data$number_stopwords/data$number_words
 ##Word length frequency distribution/M (30 features)
 # ???
 
+### Structural Attributes (all not implementable)
 
+## Has a greeting acknowledgment
+## Uses a farewell acknowledgment
+## Contains signature text
+## Number of attachments
+## Position of requoted text within e-mail body
+## HTML tag frequency distribution/total number of HTML tags (16 features)
+
+
+## Other structural stuff
+
+
+
+
+#######################################################################
+## Save Data
+
+saveRDS(data,file = "../data/processed_data.rds")
 
 
