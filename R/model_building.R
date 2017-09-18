@@ -24,6 +24,18 @@ df <-
 
 df <- df[complete.cases(df),]
 
+
+# Look at authors/dep.variable
+data$MetadataFrom %>% table() %>% sort()
+data$sender <- data$MetadataFrom %>% as.character() 
+#ggplot(data = data) + geom_histogram(aes(x = sender),stat = "count")
+
+# Of 290 unique authors, 16 wrote more than 50 E-Mails. 
+# These 16 will be kept for different combinations of training datasets
+data$sender %>% unique() %>% length()
+data$sender %>% table() %>% sort() %>% .[.>50] 
+
+
 #List all authors with more than 50 mails
 df$sender %>% table() %>% sort() %>% .[.>20] 
 

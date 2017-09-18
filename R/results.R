@@ -93,3 +93,12 @@ gg <-
          scale = 0.5,
          dpi = 800)
 
+  
+  #######
+  
+  # library(ggplot2)   
+  # 
+  # p <- ggplot(subset(wf, freq>50), aes(x = reorder(word, -freq), y = freq)) +
+  #   geom_bar(stat = "identity") + 
+  #   theme(axis.text.x=element_text(angle=45, hjust=1))
+  # p   

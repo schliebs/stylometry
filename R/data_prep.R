@@ -20,19 +20,9 @@ names(data)
 
 # Pick 3 frequent authors: 
 
-data$MetadataFrom %>% table() %>% sort()
-data$sender <- data$MetadataFrom %>% as.character() 
-#ggplot(data = data) + geom_histogram(aes(x = sender),stat = "count")
-
-# Of 290 unique authors, 16 wrote more than 50 E-Mails. 
-# These 16 will be kept for different combinations of training datasets
-data$sender %>% unique() %>% length()
-data$sender %>% table() %>% sort() %>% .[.>50] 
-
 
 # Advanced Data Management: tm-package/Corpus operations
 
-#data <- data[1:1000,]
 
 # E-Mail Content: 
 docs_raw <- (VCorpus(VectorSource(data$ExtractedBodyText)))
@@ -43,16 +33,16 @@ summary(docs)
 #writeLines(as.character(docs[2]))
 
 
-# Removing Punctuation
-docs <- tm_map(docs,removePunctuation)   
+# Removing Punctuation (loss of information)
+#docs <- tm_map(docs,removePunctuation)   
 
-# Removing numbers
-docs <- tm_map(docs, removeNumbers)   
+# Removing numbers (Do not want this: loss of information)
+#docs <- tm_map(docs, removeNumbers)   
 
-# converting to lowercase
-docs <- tm_map(docs, tolower)   
+# converting to lowercase (loss of information)
+#docs <- tm_map(docs, tolower)   
 
-# Remove stopwords (do I really wanna do this?)
+# Remove stopwords (do I really wanna do this?) => nope
 length(stopwords("english"))   
 stopwords("english")   
 # docs <- tm_map(docs, removeWords, stopwords("english"))   
@@ -67,21 +57,32 @@ docs <- tm_map(docs, removeWords, c("studienstiftung", "merkel"))
 #writeLines(as.character(docs_st[1])) # Check to see if it worked.
 # docs <- docs_st
 
-
-docs_final <- docs
 # so far so good the processing
-
 docs <- tm_map(docs_final, PlainTextDocument)
+
+
+
+
+
+########## Document Term / Term Document Matrices ##########
 
 # DTM
 dtm <- DocumentTermMatrix(docs)   
 #dtm   
 #as.matrix(dtm)
 
+freq <- colSums(as.matrix(dtm))   
+freq   
+
+wf <- data.frame(word=names(freq), freq=freq)   
+wf_ordered <- wf[order(wf$freq,decreasing = T),]
+
 #TDM
 tdm <- TermDocumentMatrix(docs)   
 #tdm   
-#as.matrix(tdm)
+tdm_matrix <- as.matrix(tdm)
+sub_matrix <- tdm_matrix[rownames(tdm_matrix) %in% wf_ordered[1:122,]$word,]
+colnames(sub_matrix) <- 1:ncol(sub_matrix)
 
 freq <- colSums(as.matrix(dtm))   
 length(freq) 
@@ -89,6 +90,7 @@ length(freq)
 #  Start by removing sparse terms:   
 #dtms <- removeSparseTerms(dtm, 0.2) # This makes a matrix that is 20% empty space, maximum.   
 #dtms
+#??? 
 
 # Word freq
 freq <- colSums(as.matrix(dtm))
@@ -96,18 +98,6 @@ freq <- colSums(as.matrix(dtm))
 head(table(freq), 20) # The ", 20" indicates that we only want the first 20 frequencies. Feel free to change that number.
 tail(table(freq), 20) # The ", 20" indicates that we only want the last 20 frequencies.  Feel free to change that number, as needed.
 
-freq <- colSums(as.matrix(dtm))   
-freq   
-
-wf <- data.frame(word=names(freq), freq=freq)   
-head(wf)  
-
-# library(ggplot2)   
-# 
-# p <- ggplot(subset(wf, freq>50), aes(x = reorder(word, -freq), y = freq)) +
-#   geom_bar(stat = "identity") + 
-#   theme(axis.text.x=element_text(angle=45, hjust=1))
-# p   
 
 
 ############################################################
@@ -160,25 +150,39 @@ data$average_word_length <- as.vector(sapply(docs,function(x) mean(sapply(allWor
 
 data$vocab_richness <- data$unique_words/data$number_words
 
-##Total number of function words/M
-# yti
-data$number_stopwords <- as.vector(sapply(docs,function(x) {length(allWords(x[[1]]) %>% .[.%in% stopwords("english")])} ))
 
+## STOPWORDS ? 
+
+data$number_stopwords <- as.vector(sapply(docs,function(x) {length(allWords(x[[1]]) %>% .[.%in% stopwords("english")])} ))
 data$rate_stopwords <- data$number_stopwords/data$number_words
 
+
+##Total number of function words/M
+# yti
+
+
 ##Function word frequency distribution (122 features)
-# yet to implement!!!
+test = (sub_matrix / t(rep.col(data$number_words,nrow(sub_matrix)))) %>% t()
 
 ##Total number of short words/M 
+# defined as <4
+
+countShortWords = function(d) {
+  return(length(strsplit(d, " ")[[1]] %>% .[str_length(.) < 4]) )
+}
+
+data$total_shortwords <- as.vector(sapply(docs,function(x) (countShortWords(as.character(x[[1]])))))
+data$rate_shortwords <- data$total_shortwords/data$number_words
+
 
 ##Count of hapax legomena/M
-# ??? 
+# does not work because almost all mails to short!!!
 
 ##Count of hapax legomena/V
-# ???
+# does not work because almost all mails to short!!!
 
 ### Total number of characters in words/C
-# yti
+# 
 
 ##Total number of alphabetic characters in words/C
 # yti
