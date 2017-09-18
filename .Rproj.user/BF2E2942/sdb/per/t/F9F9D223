@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "mail_summary <- function(input_data) {\n  summary_table <- \n    input_data %>% group_by(sender) %>% summarize(total_mails = n(),\n                                                  number_words = mean(number_words,na.rm = T) %>% round(1),\n                                                  total_char = mean(total_char,na.rm = T) %>% round(1),\n                                                  unique_words = mean(unique_words,na.rm = T)%>% round(1),\n                                                  total_char = mean(total_char,na.rm = T)%>% round(1),\n                                                  sentence_length = mean(sentence_length,na.rm = T)%>% round(1),\n                                                  total_char = mean(total_char,na.rm = T)%>% round(1),\n                                                  unique_words = mean(unique_words,na.rm = T)%>% round(1),\n                                                  sentence_length = mean(sentence_length,na.rm = T)%>% round(1),\n                                                  average_word_length = mean(average_word_length,na.rm = T)%>% round(1),\n                                                  vocab_richness = mean(vocab_richness,na.rm = T)%>% round(1),\n                                                  number_stopwords = mean(number_stopwords,na.rm = T)%>% round(1),\n                                                  rate_stopwords = mean(rate_stopwords,na.rm = T) %>% round(1)\n    ) \n  return(summary_table)\n}\n\n\nClean_String <- function(string){\n  # Lowercase\n  temp <- tolower(string)\n  #' Remove everything that is not a number or letter (may want to keep more \n  #' stuff in your actual analyses). \n  temp <- stringr::str_replace_all(temp,\"[^a-zA-Z\\\\s]\", \" \")\n  # Shrink down to just one white space\n  temp <- stringr::str_replace_all(temp,\"[\\\\s]+\", \" \")\n  # Split it\n  temp <- stringr::str_split(temp, \" \")[[1]]\n  # Get rid of trailing \"\" if necessary\n  indexes <- which(temp == \"\")\n  if(length(indexes) > 0){\n    temp <- temp[-indexes]\n  } \n  return(temp)\n}\n\n############################################################################\n\n#' function to clean text\nClean_Text_Block <- function(text){\n  if(length(text) <= 1){\n    # Check to see if there is any text at all with another conditional\n    if(length(text) == 0){\n      cat(\"There was no text in this document! \\n\")\n      to_return <- list(num_tokens = 0, unique_tokens = 0, text = \"\")\n    }else{\n      # If there is , and only only one line of text then tokenize it\n      clean_text <- Clean_String(text)\n      num_tok <- length(clean_text)\n      num_uniq <- length(unique(clean_text))\n      to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)\n    }\n  }else{\n    # Get rid of blank lines\n    indexes <- which(text == \"\")\n    if(length(indexes) > 0){\n      text <- text[-indexes]\n    }  \n    # Loop through the lines in the text and use the append() function to \n    clean_text <- Clean_String(text[1])\n    for(i in 2:length(text)){\n      # add them to a vector \n      clean_text <- append(clean_text,Clean_String(text[i]))\n    }\n    # Calculate the number of tokens and unique tokens and return them in a \n    # named list object.\n    num_tok <- length(clean_text)\n    num_uniq <- length(unique(clean_text))\n    to_return <- list(num_tokens = num_tok, unique_tokens = num_uniq, text = clean_text)\n  }\n  return(to_return)\n}\n",
+    "created" : 1505691374990.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1931019505",
+    "id" : "F9F9D223",
+    "lastKnownWriteTime" : 1505691381,
+    "last_content_update" : 1505691381668,
+    "path" : "C:/Users/Schliebs/OneDrive/17_stylometry/stylometry/R/functions.R",
+    "project_path" : "R/functions.R",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

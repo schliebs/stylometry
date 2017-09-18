@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#######################################\n##One-dimensional case: number of words\n#######################################\n\n# Read data\n\ndata <- readRDS(file = \"../data/processed_data.rds\")\n\n\n# Covariates that work \n\ndf <- \n  data %>% select(\n    sender,\n    number_words,\n    total_char,\n    unique_words,\n    sentence_length,\n    average_word_length ,\n    vocab_richness,\n    number_stopwords,\n    rate_stopwords\n)\n\ndf <- df[complete.cases(df),]\n\n#List all authors with more than 50 mails\ndf$sender %>% table() %>% sort() %>% .[.>20] \n\n# Mean number words\n\nmail_summary(df)\n\n\n# Pick 3\nfilter <- df$sender %>% table() %>% sort() %>% .[.>50 ] %>% names() %>% as.vector() %>% .[c(1:3)]\nfilter \n\ndf_all <- df %>% filter(sender %in% filter)\nmail_summary(df_all)\n\n# Splitting in training and test data\n\nsample_training <- sample(1:nrow(df_all),round(nrow(df_all)*0.75),replace = FALSE)\n\ntraining <- c(1:nrow(df_all)) %in% sample_training\nprediction <- !c(1:nrow(df_all)) %in% training\n\ndf_training <- \n  df_all [training,]\n\ndf_prediction <- \n  df_all [prediction,]\n\n# Tune 1\nsvm_tune1 <- \n    tune(svm, factor(sender)~ ., data = df_training,\n         kernel=\"radial\", type = \"C-classification\",\n         ranges=list(cost=10^(-1:2), \n                     gamma=c(.5,1,2)))\n\n# Tune 2\nsvm_tune2 <- \n  tune(svm, factor(sender)~ ., data = df_training,\n       kernel=\"radial\", type = \"C-classification\",\n       ranges=list(cost=seq(0.1,1.9,by = 0.2), \n                   gamma=seq(0.1,1.9,by = 0.2)))\n\n\n## classification mode\n# default with factor response:\nmodel <- svm(sender ~ \n             number_words +\n             total_char +\n             unique_words +\n             sentence_length +\n             average_word_length +\n             vocab_richness +\n             number_stopwords +\n             rate_stopwords,\n             data = df_training,\n             gamma = 1.1,\n             cost = 1.5,\n             kernel = \"radial\",\n             type = \"C-classification\")\n\nprint(model)\nsummary(model)\n\n\n# Calculate Decision Values and Probabilities\npred2 <- predict(model,df_prediction,decision.values = TRUE)\nattr(pred2, \"decision.values\")\n\n# Check accuracy:\nt1 <- round(table(predicted = pred2,\n                  actual_author = df_prediction$sender) %>% prop.table(2),2); t1\n\n",
+    "created" : 1505651355002.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1034198404",
+    "id" : "2439F396",
+    "lastKnownWriteTime" : 1505695040,
+    "last_content_update" : 1505695040574,
+    "path" : "C:/Users/Schliebs/OneDrive/17_stylometry/stylometry/R/model_building.R",
+    "project_path" : "R/model_building.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

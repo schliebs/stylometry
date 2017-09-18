@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# All Senders\n\nformattable(mail_summary(df), \n            list(\n  area(col = c(total_mails)\n  ) ~ normalize_bar(\"lightgreen\", 0.2),\n  area(col = c(number_words)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(total_char)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(unique_words)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(sentence_length)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(average_word_length)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(vocab_richness)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(number_stopwords)\n  ) ~ normalize_bar(\"pink\", 0.2),\n  area(col = c(rate_stopwords)\n  ) ~ normalize_bar(\"pink\", 0.2)\n  )\n) %>% as.htmlwidget() %>% \n  saveWidget(file = \"descriptive_covariates.html\",selfcontained = TRUE)\n\n\n\n# Subset for first try\n\n# c(\"MillsCD@state.gov\" , \"Verveer, Melanne S\" ,\"Muscatine, Lissa\"  )\n\nformattable(mail_summary(df2), \n            list(\n              area(col = c(total_mails)\n              ) ~ normalize_bar(\"lightgreen\", 0.2),\n              area(col = c(number_words)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(total_char)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(unique_words)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(sentence_length)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(average_word_length)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(vocab_richness)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(number_stopwords)\n              ) ~ normalize_bar(\"pink\", 0.2),\n              area(col = c(rate_stopwords)\n              ) ~ normalize_bar(\"pink\", 0.2)\n            )\n) %>% as.htmlwidget() %>% \n  saveWidget(file = \"covariates_subset_1.html\",selfcontained = TRUE)\n\n##\n\nt1_df <-  as.data.frame(t1)\ncorrect <- \n  t1_df %>% \n  filter(predicted == actual_author) %>% \n  ungroup() %>% \n  select(Freq)%>% \n  as.data.frame %>% \n  .[,1] \n\n\nt1_df <- \n  t1_df %>% group_by(actual_author) %>% mutate(label_pos = rev(cumsum(rev(Freq)))-0.5*Freq)\n\ngg <- \n  ggplot(data = t1_df) + \n  geom_bar(aes(x = actual_author,\n           y = Freq,\n           fill = predicted),\n           stat = \"identity\")+\n  geom_text(aes(x = actual_author,\n                y = label_pos,\n                label =   paste0(format((round(Freq,3)*100),digits = 2,decimal.mark = \",\"),\" %\")))+\n  labs(x = \"Actual Author\",\n       y = \"Predicted Author Frequency\",\n       title = paste0(\"Author Sample \",q),\n       subtitle = paste0(\"Correct predictions in \",format((round(correct[1],3)*100),digits = 2,decimal.mark = \",\"),\" %, \",format((round(correct[2],3)*100),digits = 2,decimal.mark = \",\"),\" %, and \",format((round(correct[1],3)*100),digits = 2,decimal.mark = \",\"),\" % of cases\"))+\n  theme_ipsum(grid = \"\")\n  \n  \n  ggsave(filename=paste0(\"Author_Set_\",q,\".html\"),\n         plot=gg,\n         pointsize = 24, \n         width = 18 ,\n         height = 10,\n         scale = 0.5,\n         dpi = 800)\n\n",
+    "created" : 1505687923115.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "597018738",
+    "id" : "8BF981F",
+    "lastKnownWriteTime" : 1505696151,
+    "last_content_update" : 1505696151541,
+    "path" : "C:/Users/Schliebs/OneDrive/17_stylometry/stylometry/R/results.R",
+    "project_path" : "R/results.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

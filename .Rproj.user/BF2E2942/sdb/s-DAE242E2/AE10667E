@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# Install Packages\n\n#install.packages(\"install.load\")\n\ninstall.load::install_load(\"tidyverse\",\n                           \"stringr\",\n                           \"ggplot2\",\n                           \"tm\",\n                           \"e1071\", # collection of ML algorithms, here we get the SVM algorithm from\n                           \"tuneR\",  #cross validation and model optimizaton\n                           #\"openNLP\", #Natural Language Processing\n                           #\"openNLPmodels.en\" # English model files\n                           \"hrbrthemes\",\n                           \"Rcpp\",\n                           \"RcppArmadillo\",\n                           \"BH\",\n                           \"DT\",\n                           \"formattable\") #\n\n",
+    "created" : 1505687701485.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2461826620",
+    "id" : "AE10667E",
+    "lastKnownWriteTime" : 1505687881,
+    "last_content_update" : 1505687881456,
+    "path" : "C:/Users/Schliebs/OneDrive/17_stylometry/stylometry/R/packages.R",
+    "project_path" : "R/packages.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
