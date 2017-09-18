@@ -124,8 +124,37 @@ readRDS("../data/df_summarizing_results.rds")
 
 # Correct 
 df_summary <- 
-  df_summarizing_results %>% filter(actual_author == predicted) %>% 
-  group_by(actual_author) %>% 
+  df_summarizing_results %>% 
+  group_by(set,actual_author) %>% 
+  mutate(obs = sum(Freq,na.rm = TRUE)) %>% 
+  group_by(set) %>% 
+  mutate(inequality = ((((obs)-mean(unique(obs)))))) %>% 
+  mutate(inequality_log = ifelse(inequality > 0, log(inequality),-log(abs(inequality)))) %>% 
+  filter(actual_author == predicted) %>% 
+  group_by(actual_author,inequality_log) %>% 
   mutate(total = sum(Freq)) %>% 
-  summarise (correct = mean(rate),
-             relation = total)
+  summarise (correct = mean(rate))
+
+
+ggplot(data = df_summary) + 
+  geom_point(aes(x = inequality_log,
+                 y = correct,
+                 color = actual_author)) + 
+  geom_line(aes(x = inequality_log,
+                 y = correct,
+                 color = actual_author)) + 
+  labs(x = "Observation inequality: Log squared difference from Mean n()",
+       y = "Authorship correctly predicted",
+       title = paste0("Observation Inequality - A Decisive Predictor"),
+       subtitle = paste0("Correct Authorship Attribution regressed on relative observation superiority"))+
+  theme_ipsum(grid = "Y")
+
+
+ggsave(filename=paste0("Observation_Inequality.pdf"),
+       plot=gg,
+       pointsize = 24, 
+       width = 18 ,
+       height = 10,
+       scale = 0.5,
+       dpi = 800)
+  
