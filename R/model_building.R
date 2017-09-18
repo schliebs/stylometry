@@ -36,8 +36,35 @@ mail_summary(df)
 filter <- df$sender %>% table() %>% sort() %>% .[.>50 ] %>% names() %>% as.vector() %>% .[c(1:3)]
 filter 
 
-df2 <- df %>% filter(sender %in% filter)
-mail_summary(df2)
+df_all <- df %>% filter(sender %in% filter)
+mail_summary(df_all)
+
+# Splitting in training and test data
+
+sample_training <- sample(1:nrow(df_all),round(nrow(df_all)*0.75),replace = FALSE)
+
+training <- c(1:nrow(df_all)) %in% sample_training
+prediction <- !c(1:nrow(df_all)) %in% training
+
+df_training <- 
+  df_all [training,]
+
+df_prediction <- 
+  df_all [prediction,]
+
+# Tune 1
+svm_tune1 <- 
+    tune(svm, factor(sender)~ ., data = df_training,
+         kernel="radial", type = "C-classification",
+         ranges=list(cost=10^(-1:2), 
+                     gamma=c(.5,1,2)))
+
+# Tune 2
+svm_tune2 <- 
+  tune(svm, factor(sender)~ ., data = df_training,
+       kernel="radial", type = "C-classification",
+       ranges=list(cost=seq(0.1,1.9,by = 0.2), 
+                   gamma=seq(0.1,1.9,by = 0.2)))
 
 
 ## classification mode
@@ -51,33 +78,21 @@ model <- svm(sender ~
              vocab_richness +
              number_stopwords +
              rate_stopwords,
-             data = df2,
+             data = df_training,
+             gamma = 1.1,
+             cost = 1.5,
+             kernel = "radial",
              type = "C-classification")
 
 print(model)
 summary(model)
 
-# Tuned: 
-
-svm_tune <- 
-  system.time(
-  tune(svm, factor(sender)~ ., data = df2,
-                 kernel="radial", type = "C-classification",
-       ranges=list(cost=10^(-1:2), 
-                   gamma=c(.5,1,2)))
-  )
-
-print(svm_tune)
-
-# test with train data
-#pred <- predict(model, x)
-# (same as:)
-pred <- fitted(model)
 
 # Calculate Decision Values and Probabilities
-pred2 <- predict(model,df2,decision.values = TRUE)
+pred2 <- predict(model,df_prediction,decision.values = TRUE)
 attr(pred2, "decision.values")
 
 # Check accuracy:
-round(table(predicted = pred, actual_author = df2$sender) %>% prop.table(2),2)
+t1 <- round(table(predicted = pred2,
+                  actual_author = df_prediction$sender) %>% prop.table(2),2); t1
 

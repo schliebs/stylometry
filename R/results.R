@@ -54,3 +54,42 @@ formattable(mail_summary(df2),
 ) %>% as.htmlwidget() %>% 
   saveWidget(file = "covariates_subset_1.html",selfcontained = TRUE)
 
+##
+
+t1_df <-  as.data.frame(t1)
+correct <- 
+  t1_df %>% 
+  filter(predicted == actual_author) %>% 
+  ungroup() %>% 
+  select(Freq)%>% 
+  as.data.frame %>% 
+  .[,1] 
+
+
+t1_df <- 
+  t1_df %>% group_by(actual_author) %>% mutate(label_pos = rev(cumsum(rev(Freq)))-0.5*Freq)
+
+gg <- 
+  ggplot(data = t1_df) + 
+  geom_bar(aes(x = actual_author,
+           y = Freq,
+           fill = predicted),
+           stat = "identity")+
+  geom_text(aes(x = actual_author,
+                y = label_pos,
+                label =   paste0(format((round(Freq,3)*100),digits = 2,decimal.mark = ",")," %")))+
+  labs(x = "Actual Author",
+       y = "Predicted Author Frequency",
+       title = paste0("Author Sample ",q),
+       subtitle = paste0("Correct predictions in ",format((round(correct[1],3)*100),digits = 2,decimal.mark = ",")," %, ",format((round(correct[2],3)*100),digits = 2,decimal.mark = ",")," %, and ",format((round(correct[1],3)*100),digits = 2,decimal.mark = ",")," % of cases"))+
+  theme_ipsum(grid = "")
+  
+  
+  ggsave(filename=paste0("Author_Set_",q,".html"),
+         plot=gg,
+         pointsize = 24, 
+         width = 18 ,
+         height = 10,
+         scale = 0.5,
+         dpi = 800)
+

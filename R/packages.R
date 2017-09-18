@@ -15,5 +15,8 @@ install.load::install_load("tidyverse",
                            "RcppArmadillo",
                            "BH",
                            "DT",
-                           "formattable") #
+                           "formattable",
+                           "extrafont",
+                           "ggrepel") #
 
+loadfonts(device="pdf")  
