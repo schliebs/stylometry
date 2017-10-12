@@ -1,0 +1,187 @@
+\documentclass[a4paper,man,natbib]{apa6}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{epigraph}
+
+\title{Replication of de Vel (2012): Mining Email Content for Author Identification Forensics}
+\shorttitle{De Vel Replication}
+\author{Marcel Schliebs}
+\affiliation{Studienstiftung natur- und ingenieurswissenschaftliches Forschungskolleg}
+
+\abstract{Lorem ipsum pipapo.}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+In this document, I will try to document the process of replication and re-implementation of the algorithm. 
+
+\section{Paper Description}
+\label{sec:Paper Description}
+
+ \begin{enumerate}
+	\item Summary, Test Case and Approach
+		\begin{enumerate}
+		\item ...
+		\begin{enumerate}
+			\item 
+				\begin{itemize}
+					\item xxx
+					\item yyy
+				\end{itemize}
+		\end{enumerate}
+			\item zzz
+	\begin{enumerate}
+		\item 
+		\begin{itemize}
+			\item 111
+			\item 222
+		\end{itemize}
+	\end{enumerate}
+\end{enumerate}
+
+\section{Implementation/Operationalization}
+\label{sec:Implementation/Operationalization}
+
+\begin{enumerate}
+	\item Model Criticism
+	\begin{enumerate}
+		\item Variable Selection
+		\begin{enumerate}
+			\item 
+			\begin{itemize}
+				\item One entry in the list
+				\item Another entry in the list
+			\end{itemize}
+		\end{enumerate}
+		\item Weighting
+		\begin{enumerate}
+			\item 
+			\begin{itemize}
+				\item One entry in the list
+				\item Another entry in the list
+			\end{itemize}
+		\end{enumerate}
+		\item Case Selection
+		\begin{enumerate}
+			\item Omission of part-time workers 
+			\begin{itemize}
+				\item 
+				\textit{Only full-time workers are included in the analytical sample in this study (all part-time employees, self-employed, or nonworking respondents were dropped from the sample), as most government workers in the United States are full-time employees, and thus it makes sense to compare them analytically to full-time private sector workers.}
+				\item 
+				a comparison of the basic model shows that the reverse-inclusion of part-time workers alone kills all the significant effects
+			\end{itemize}
+			\item Inclusion of 2004-cases in second model
+			\begin{itemize}
+				\item 
+				\textit{The 2002 and 2004 GSS were combined in some of the regressions because the split-sample design of the GSS resulted in less data on the job satisfaction question (satjob), the dependent variable, for these years. As Table 1 shows, there were n = 1,513 full-time workers who answered the GSS job satisfaction question in the 2000 GSS, but there were only n = 722 full-time workers who answered the same question in the 2002 GSS, and another n = 953 in the 2004 GSS. Thus combining the 2002 and 2004 samples provides more balance in the pre- and post-9-11 sample sizes and also more statistical precision overall in the regressions. It also provides a test of the sensitivity of the regression results to alternative definitions of the post-9-11 period. For the descriptive graphs of the data, the GSS waves beyond 2004 are also included for purposes of illustrating the trend in job.}
+				\item 
+				a word on the inclusion of 2004...
+			\end{itemize}
+		\end{enumerate}
+	\end{enumerate}
+	
+	\item Other ideas
+	\begin{enumerate}
+		\item Comparative Approach: Test for other countries: 
+		\begin{enumerate}
+			\item France after Bataclan, other national disasters
+			\begin{enumerate}
+				\item CEVIPOF Dataset?
+				\item Other Datasets?
+			\end{enumerate}
+		\end{enumerate}
+	\end{enumerate}
+	\begin{enumerate}
+		\item Meta Analysis?
+		\begin{enumerate}
+			\item Include all model specifications in the regression as interacting with s.e.
+			\begin{enumerate}
+				\item xx
+			\end{enumerate}
+			\item Could we detect very small but true effects in meta analysis that would not be able to be identified in an individual study due to small effect sizes and large standard errors
+		\end{enumerate}
+		\item Lecture notes Tom Stanley
+		\begin{enumerate}
+			\item xx
+			\item yy 
+		\end{enumerate}
+	\end{enumerate}
+\end{enumerate}
+
+
+\section{Some \LaTeX{} Examples}
+\label{sec:examples}
+
+\subsection{Sections}
+
+Use section and subsection commands to organize your document. \LaTeX{} handles all the formatting and numbering automatically. Use ref and label commands for cross-references.
+
+\subsection{Comments}
+
+You can add inline TODO comments with the todonotes package, like this:
+\todo[inline, color=green!40]{This is an inline comment.}
+
+\subsection{References}
+
+LaTeX automatically generates a bibliography in the APA style from your .bib file. The citep command generates a formatted citation in parentheses \citep{Lamport1986}. The cite command generates one without parentheses. LaTeX was first discovered by \cite{Lamport1986}.
+
+\subsection{Tables and Figures}
+
+Use the table and tabular commands for basic tables --- see Table~\ref{tab:widgets}, for example. You can upload a figure (JPEG, PNG or PDF) using the files menu. To include it in your document, use the includegraphics command as in the code for Figure~\ref{fig:frog} below.
+
+% Commands to include a figure:
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidth]{frog.jpg}
+\caption{\label{fig:frog}This is a figure caption.}
+\end{figure}
+
+\begin{table}
+\centering
+\begin{tabular}{l|r}
+Item & Quantity \\\hline
+Widgets & 42 \\
+Gadgets & 13
+\end{tabular}
+\caption{\label{tab:widgets}An example table.}
+\end{table}
+
+\subsection{Mathematics}
+
+\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
+$$S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
+      = \frac{1}{n}\sum_{i}^{n} X_i$$
+denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+
+\subsection{Lists}
+
+You can make lists with automatic numbering \dots
+
+\begin{enumerate}
+\item Like this,
+\item and like this.
+\end{enumerate}
+\dots or bullet points \dots
+\begin{itemize}
+\item Like this,
+\item and like this.
+\end{itemize}
+
+We hope you find write\LaTeX\ useful, and please let us know if you have any feedback using the help menu above.
+
+\bibliography{example}
+
+\end{document}
+
+%
+% Please see the package documentation for more information
+% on the APA6 document class:
+%
+% http://www.ctan.org/pkg/apa6
+%
