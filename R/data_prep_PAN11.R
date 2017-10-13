@@ -3,6 +3,12 @@ source("R/packages.R")
 
 # Data loading and preparation
 
+# PAN 11 Training Dataset
+
+
+
+
+
 # Read Emails and immidiately remove empty mails
 data <- read.csv("../data/Emails.csv")
 names(data)
@@ -10,11 +16,6 @@ names(data)
 # delete empty mails
 data <- data %>% filter(!is.na(ExtractedBodyText) & ExtractedBodyText != "")
 
-
-# Read other Metadata
-persons <- read.csv("../data/Persons.csv")
-receivers <- read.csv("../data/EmailReceivers.csv")
-aliases <- read.csv("../data/Aliases.csv")
 
 #Overview over data
 names(data)

@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{epigraph}
+\usepackage[table]
+\usepackage[xcdraw]{xcolor}
 
 \title{Replication of de Vel (2012): Mining Email Content for Author Identification Forensics}
 \shorttitle{De Vel Replication}
@@ -18,6 +20,21 @@
 \maketitle
 
 \section{Introduction}
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+	\centering
+	\caption{My caption}
+	\label{my-label}
+	\begin{tabular}{lllll}
+		& xx & aa & bb  &  \\
+		& yy &  &   &  \\
+		& ww &  &   &  \\
+		&  &  &   & 
+	\end{tabular}
+\end{table}	
 
 In this document, I will try to document the process of replication and re-implementation of the algorithm. 
 
@@ -44,48 +61,17 @@ In this document, I will try to document the process of replication and re-imple
 		\end{itemize}
 	\end{enumerate}
 \end{enumerate}
+\end{enumerate}
 
 \section{Implementation/Operationalization}
 \label{sec:Implementation/Operationalization}
 
 \begin{enumerate}
-	\item Model Criticism
-	\begin{enumerate}
-		\item Variable Selection
-		\begin{enumerate}
-			\item 
-			\begin{itemize}
-				\item One entry in the list
-				\item Another entry in the list
-			\end{itemize}
-		\end{enumerate}
-		\item Weighting
-		\begin{enumerate}
-			\item 
-			\begin{itemize}
-				\item One entry in the list
-				\item Another entry in the list
-			\end{itemize}
-		\end{enumerate}
-		\item Case Selection
-		\begin{enumerate}
-			\item Omission of part-time workers 
-			\begin{itemize}
-				\item 
-				\textit{Only full-time workers are included in the analytical sample in this study (all part-time employees, self-employed, or nonworking respondents were dropped from the sample), as most government workers in the United States are full-time employees, and thus it makes sense to compare them analytically to full-time private sector workers.}
-				\item 
-				a comparison of the basic model shows that the reverse-inclusion of part-time workers alone kills all the significant effects
-			\end{itemize}
-			\item Inclusion of 2004-cases in second model
-			\begin{itemize}
-				\item 
-				\textit{The 2002 and 2004 GSS were combined in some of the regressions because the split-sample design of the GSS resulted in less data on the job satisfaction question (satjob), the dependent variable, for these years. As Table 1 shows, there were n = 1,513 full-time workers who answered the GSS job satisfaction question in the 2000 GSS, but there were only n = 722 full-time workers who answered the same question in the 2002 GSS, and another n = 953 in the 2004 GSS. Thus combining the 2002 and 2004 samples provides more balance in the pre- and post-9-11 sample sizes and also more statistical precision overall in the regressions. It also provides a test of the sensitivity of the regression results to alternative definitions of the post-9-11 period. For the descriptive graphs of the data, the GSS waves beyond 2004 are also included for purposes of illustrating the trend in job.}
-				\item 
-				a word on the inclusion of 2004...
-			\end{itemize}
-		\end{enumerate}
-	\end{enumerate}
-	
+	\item Features and their implementation
+
+	 
+
+
 	\item Other ideas
 	\begin{enumerate}
 		\item Comparative Approach: Test for other countries: 
